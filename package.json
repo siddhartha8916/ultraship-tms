@@ -1,0 +1,12 @@
+{
+  "name": "ultraship-tms",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "prepare": "node .husky/install.mjs"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "husky": "^9.1.7"
+  }
+}

@@ -1,5 +1,5 @@
 {
-  "name": "graphql-starter",
+  "name": "ultraship-tms-backend",
   "type": "module",
   "private": true,
   "scripts": {

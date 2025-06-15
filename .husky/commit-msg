@@ -1,0 +1,17 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+commit_msg_file=$1
+commit_msg=$(cat "$commit_msg_file")
+
+# Enforce format: <type>(<scope>): <description>
+# Example: feat(ui): backend setup
+pattern="^(feat|fix|chore|docs|style|refactor|test|perf)\([a-z0-9\-]+\): .+"
+
+if ! echo "$commit_msg" | grep -qE "$pattern"; then
+  echo "❌ Invalid commit message format."
+  echo ""
+  echo "✅ Expected format: <type>(<scope>): <description>"
+  echo "👉 Example: feat(ui): add login screen"
+  exit 1
+fi
