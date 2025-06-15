@@ -1,0 +1,19 @@
+scalar DateTime
+scalar EmailAddress
+
+type User implements Node {
+  id: ID!
+  firstName: String
+  middleName: String
+  lastName: String
+  fullName: String
+  email: EmailAddress
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+extend type Query {
+  users(offset: Int, limit: Int = 10): [User!]!
+  user(id: ID!): User
+  userByEmail(email: String!): User
+}
