@@ -3,7 +3,8 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prepare": "node .husky/install.mjs"
+    "prepare": "node .husky/install.mjs",
+    "build": "cd backend && gulp build"
   },
   "devDependencies": {
     "husky": "^9.1.7",
