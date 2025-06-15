@@ -4,17 +4,17 @@ import { UserSchema } from '@/db/schema/index.js';
 export const ResponseUserFullSchema = z
   .object({
     id: UserSchema.shape.id,
-    firstName: UserSchema.shape.firstName,
-    middleName: UserSchema.shape.middleName,
-    lastName: UserSchema.shape.lastName,
+    first_name: UserSchema.shape.first_name,
+    middle_name: UserSchema.shape.middle_name,
+    last_name: UserSchema.shape.last_name,
     email: UserSchema.shape.email,
-    createdAt: UserSchema.shape.createdAt,
-    updatedAt: UserSchema.shape.updatedAt,
+    created_at: UserSchema.shape.created_at,
+    updated_at: UserSchema.shape.updated_at,
   })
   .extend({
     // We need the date objects to be serialized but in valid datetime format.
-    createdAt: z.coerce.date().transform((arg) => arg.toISOString()),
-    updatedAt: z.coerce.date().transform((arg) => arg.toISOString()),
+    created_at: z.coerce.date().transform((arg) => arg.toISOString()),
+    updated_at: z.coerce.date().transform((arg) => arg.toISOString()),
   });
 export type ResponseUserFull = z.infer<typeof ResponseUserFullSchema>;
 

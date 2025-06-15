@@ -1,19 +1,20 @@
 import { RequestHandler } from 'express';
 import { registerUseCase } from '../../use-cases/register.use-case.js';
+import { User } from '@/db/schema/index.js';
 
-export const registerHandler: RequestHandler<any, undefined, any, any> = async (req, res) => {
-  const { email, firstName, lastName, password, middleName } = req.body as any;
+export const registerHandler: RequestHandler<any, { user: User }, any, any> = async (req, res) => {
+  const { email, first_name, last_name, password, middle_name } = req.body as any;
 
-  await registerUseCase(
+  const result = await registerUseCase(
     {
       email,
-      firstName,
-      middleName,
-      lastName,
+      first_name,
+      middle_name,
+      last_name,
       password,
     },
     req.context,
   );
 
-  res.send();
+  res.send({ user: result.user });
 };

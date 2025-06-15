@@ -1,18 +1,18 @@
 import { z } from 'zod';
 
-const createdAt = z.coerce.date();
-const updatedAt = z.coerce.date();
+const created_at = z.coerce.date();
+const updated_at = z.coerce.date();
 
 export const UserSchema = z
   .object({
     id: z.string().uuid(),
-    firstName: z.string(),
-    middleName: z.string().nullable().optional(),
-    lastName: z.string(),
+    first_name: z.string(),
+    middle_name: z.string().nullable().optional(),
+    last_name: z.string(),
     email: z.string().email(),
     password: z.string(),
   })
-  .merge(z.object({ createdAt, updatedAt }));
+  .merge(z.object({ created_at, updated_at }));
 
 export const SystemRoleSchema = z.object({
   id: z.string().uuid(),

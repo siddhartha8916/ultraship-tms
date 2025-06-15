@@ -7,9 +7,9 @@ import { z } from 'zod';
 import { v4 as uuidv4 } from 'uuid';
 
 const dtoSchema = z.object({
-  firstName: UserSchema.shape.firstName,
-  middleName: UserSchema.shape.middleName,
-  lastName: UserSchema.shape.lastName,
+  first_name: UserSchema.shape.first_name,
+  middle_name: UserSchema.shape.middle_name,
+  last_name: UserSchema.shape.last_name,
   email: UserSchema.shape.email,
   password: UserSchema.shape.password,
 });
@@ -20,7 +20,7 @@ type RegisterUseCaseResult = {
   user: User;
 };
 export async function registerUseCase(dto: RegisterDTO, ctx: IContext): Promise<RegisterUseCaseResult> {
-  const { firstName, middleName, lastName, email, password } = await validateDTO(dto);
+  const { first_name, middle_name, last_name, email, password } = await validateDTO(dto);
 
   const hash = await bcryptUtil.generateHash(password);
 
@@ -29,22 +29,22 @@ export async function registerUseCase(dto: RegisterDTO, ctx: IContext): Promise<
     throw new BadInputError({ email: ['Email already taken'] });
   }
 
-  const user = await db('users')
-    .insert({
+  const user = (await db('users').insert(
+    {
       id: uuidv4(),
-      firstName,
-      middleName,
-      lastName,
+      first_name,
+      middle_name,
+      last_name,
       email,
-      hashedPassword: hash,
-      updatedAt: new Date(),
-    })
-    .returning("*")
-    .first();
+      hashed_password: hash,
+      updated_at: new Date(),
+    },
+    ['*'],
+  )) as User[];
 
-  if (!user) {
+  if (!user || user.length === 0) {
     throw new InternalServerError('Failed to create user');
   }
 
-  return { user };
+  return { user: user[0] };
 }

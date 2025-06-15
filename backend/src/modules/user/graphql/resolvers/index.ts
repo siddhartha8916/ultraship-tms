@@ -7,7 +7,7 @@ const resolvers: GQL_Resolvers = {
     users: usersResolver,
   },
   User: {
-    fullName: fullNameResolver,
+    full_name: fullNameResolver,
   },
 };
 export default resolvers;

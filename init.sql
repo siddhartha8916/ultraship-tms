@@ -14,49 +14,51 @@ DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS users;
 
 -- 1. Users table
-CREATE TABLE users (
+CREATE TABLE tms_schema.users (
   id UUID PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  age INT NOT NULL,
-  email VARCHAR(255) UNIQUE NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  first_name VARCHAR(255) NOT NULL,
+  middle_name VARCHAR(255),
+  last_name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  hashed_password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL
 );
 
+
 -- 2. Employees table (extends users)
-CREATE TABLE employees (
+CREATE TABLE tms_schema.employees (
   id UUID PRIMARY KEY, 
   user_id UUID NOT NULL UNIQUE,
   hire_date DATE,
-  FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (user_id) REFERENCES tms_schema.users(id) ON DELETE CASCADE
 );
 
 -- 3. Classes table
-CREATE TABLE classes (
+CREATE TABLE tms_schema.classes (
   id UUID PRIMARY KEY,
   name VARCHAR(100) NOT NULL,
   subject VARCHAR(100) NOT NULL
 );
 
 -- 4. Employee-to-Class mapping (many-to-many)
-CREATE TABLE employee_classes (
+CREATE TABLE tms_schema.employee_classes (
   employee_id UUID NOT NULL,
   class_id UUID NOT NULL,
   PRIMARY KEY (employee_id, class_id),
-  FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
-  FOREIGN KEY (class_id) REFERENCES classes(id) ON DELETE CASCADE
+  FOREIGN KEY (employee_id) REFERENCES tms_schema.employees(id) ON DELETE CASCADE,
+  FOREIGN KEY (class_id) REFERENCES tms_schema.classes(id) ON DELETE CASCADE
 );
 
 -- 5. Attendance table
-CREATE TABLE attendance (
+CREATE TABLE tms_schema.attendance (
   id UUID PRIMARY KEY,
   employee_id UUID NOT NULL,
   class_id UUID,
   date DATE NOT NULL,
   status VARCHAR(20) NOT NULL CHECK (status IN ('Present', 'Absent', 'Late')),
-  FOREIGN KEY (employee_id) REFERENCES employees(id),
-  FOREIGN KEY (class_id) REFERENCES classes(id),
+  FOREIGN KEY (employee_id) REFERENCES tms_schema.employees(id),
+  FOREIGN KEY (class_id) REFERENCES tms_schema.classes(id),
   UNIQUE (employee_id, date)
 );
 

@@ -25,12 +25,12 @@ function createGQLUser(user: User): GQL_User {
 
   return {
     id: user.id,
-    firstName: user.firstName,
-    middleName: user.middleName,
-    lastName: user.lastName,
+    first_name: user.first_name,
+    middle_name: user.middle_name,
+    last_name: user.last_name,
     email: user.email,
-    createdAt: user.createdAt,
-    updatedAt: user.updatedAt,
+    created_at: user.created_at,
+    updated_at: user.updated_at,
 
     /**
      * Fields that have their own field resolvers should be set to `null`
@@ -38,7 +38,7 @@ function createGQLUser(user: User): GQL_User {
      * pretty much like how eager loaded fields are separated in our objection models.
      */
 
-    fullName: null as any,
+    full_name: null as any,
   };
 }
 
