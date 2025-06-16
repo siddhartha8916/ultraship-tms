@@ -5,7 +5,7 @@
   "scripts": {
     "prepare": "node .husky/install.mjs",
     "build": "npm-run-all --parallel build:frontend build:backend",
-    "build:frontend": "cd frontend && npm install && npm run build",
+    "build:frontend": "cd frontend && pnpm install && pnpm run build",
     "build:backend": "cd backend && gulp build"
   },
   "devDependencies": {
