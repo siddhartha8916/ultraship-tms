@@ -12,6 +12,7 @@ const dtoSchema = z.object({
   last_name: UserSchema.shape.last_name,
   email: UserSchema.shape.email,
   password: UserSchema.shape.password,
+  role: UserSchema.shape.role,
 });
 const validateDTO = createSchemaValidator(dtoSchema);
 type RegisterDTO = z.infer<typeof dtoSchema>;
@@ -20,7 +21,7 @@ type RegisterUseCaseResult = {
   user: User;
 };
 export async function registerUseCase(dto: RegisterDTO, ctx: IContext): Promise<RegisterUseCaseResult> {
-  const { first_name, middle_name, last_name, email, password } = await validateDTO(dto);
+  const { first_name, middle_name, last_name, email, password, role } = await validateDTO(dto);
 
   const hash = await bcryptUtil.generateHash(password);
 
@@ -36,6 +37,7 @@ export async function registerUseCase(dto: RegisterDTO, ctx: IContext): Promise<
       middle_name,
       last_name,
       email,
+      role,
       hashed_password: hash,
       updated_at: new Date(),
     },

@@ -1,23 +1,31 @@
-import { z } from 'zod';
-import dotenv from 'dotenv';
+import { config } from 'dotenv';
+import { cleanEnv, port, str, testOnly } from 'envalid';
 
-dotenv.config();
+config();
 
-const isProduction = process.env.NODE_ENV === 'production';
-
-const EnvironmentConfigSchema = z.object({
-  NODE_ENV: z.coerce.string().toLowerCase().default('development'),
-  PORT: z.coerce.number().default(8080),
-  POSTGRES_CONNECTION_URL: z
-    .string()
-    .nonempty()
-    .default(() => (isProduction ? '' : 'postgresql://postgres:password@db:5432/db')),
+const envVars = cleanEnv(process.env, {
+  NODE_ENV: str({
+    devDefault: testOnly('test'),
+    choices: ['development', 'production', 'test'],
+  }),
+  PORT: port({ devDefault: testOnly(3000) }),
+  POSTGRES_CONNECTION_URL: str({ devDefault: testOnly('http://localhost:3000') }),
+  JWT_SECRET: str(),
+  X_REQUEST_HEADER: str(),
 });
-type EnvironmentConfig = z.infer<typeof EnvironmentConfigSchema> & { isProduction: boolean };
 
-export const env: EnvironmentConfig = {
-  ...EnvironmentConfigSchema.parse(process.env),
-  get isProduction() {
-    return this.NODE_ENV === 'production';
+export const Configuration = {
+  NODE_ENV: envVars.NODE_ENV,
+  PORT: envVars.PORT,
+  POSTGRES_CONNECTION_URL: envVars.POSTGRES_CONNECTION_URL,
+  JWT_SECRET: envVars.JWT_SECRET,
+  X_REQUEST_HEADER: envVars.X_REQUEST_HEADER,
+
+  isProduction(): boolean {
+    return envVars.NODE_ENV === 'production';
   },
-} as const;
+
+  isDevelopment(): boolean {
+    return envVars.NODE_ENV === 'development';
+  },
+};

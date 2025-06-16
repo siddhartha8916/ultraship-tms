@@ -14,3 +14,4 @@
 
 export { SortDirection } from '@/shared/constants/index.js';
 export { UserSortField } from '@/modules/user/constants/user-sort-field.enum.js';
+export { Role } from '@/shared/constants/role.enum.js';

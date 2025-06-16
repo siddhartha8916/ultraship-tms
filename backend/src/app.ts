@@ -1,5 +1,4 @@
-import { env } from '@/config/environment.js';
-import { errorMiddleware, corsMiddleware, createContextMiddleware } from '@/middlewares/index.js';
+import { errorMiddleware, corsMiddleware, checkAuthToken } from '@/middlewares/index.js';
 import { initApolloGraphqlServer } from '@/graphql/index.js';
 
 import helmet from 'helmet';
@@ -12,12 +11,14 @@ import { maintenanceRouter } from '@/modules/maintenance/routes/index.js';
 import { authRouter } from '@/modules/auth/routes/index.js';
 import { userRouter } from '@/modules/user/routes/index.js';
 import { db } from '@/db/index.js';
+import { Configuration } from './config/environment.js';
+import { initializeRequestContext } from './middlewares/context.middleware.js';
 
 const app = express();
 
 (async () => {
   console.info(`${'='.repeat(30)}`);
-  console.info(`NODE_ENV: ${env.NODE_ENV}`);
+  console.info(`NODE_ENV: ${Configuration.NODE_ENV}`);
   console.info(`${'='.repeat(30)}`);
 
   app.set('trust proxy', true);
@@ -28,14 +29,10 @@ const app = express();
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(corsMiddleware());
+  app.use(initializeRequestContext);
+  app.use(checkAuthToken);
 
-  app.use(createContextMiddleware());
-
-  const routers: Router[] = [
-    maintenanceRouter,
-    authRouter,
-    userRouter,
-  ];
+  const routers: Router[] = [maintenanceRouter, authRouter, userRouter];
   app.use(routers);
 
   app.use(errorMiddleware());
@@ -52,7 +49,7 @@ const app = express();
     },
   });
 
-  httpServer.listen(env.PORT, () => {
-    console.info(`Server is now up @ ${env.PORT}`);
+  httpServer.listen(Configuration.PORT, () => {
+    console.info(`Server is now up @ ${Configuration.PORT}`);
   });
 })();

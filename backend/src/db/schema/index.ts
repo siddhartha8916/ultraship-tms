@@ -11,6 +11,7 @@ export const UserSchema = z
     last_name: z.string(),
     email: z.string().email(),
     password: z.string(),
+    role: z.enum(['admin', 'employee']),
   })
   .merge(z.object({ created_at, updated_at }));
 
@@ -25,7 +26,10 @@ export const UserSystemRolesSchema = z.object({
   systemRoleId: SystemRoleSchema.shape.id,
 });
 
-
 export type User = z.infer<typeof UserSchema>;
 export type SystemRole = z.infer<typeof SystemRoleSchema>;
 export type UserSystemRoles = z.infer<typeof UserSystemRolesSchema>;
+
+export type UserFull = User & {
+  hashed_password: string;
+};

@@ -2,9 +2,9 @@ import { InternalServerError } from '../internal-server.error.js';
 import { BaseError } from '../base.error.js';
 import { ErrorHandler } from '@/shared/types/index.js';
 import { DatabaseError } from '../database.error.js';
-import { env } from '@/config/environment.js';
 import { unwrapResolverError } from '@apollo/server/errors';
 import { pgErrorHandler } from './pg.error-handler.js';
+import { Configuration } from '@/config/environment.js';
 
 /**
  * Handles the error and normalizes it to the application's `BaseError`.
@@ -49,7 +49,7 @@ export function handleError(unknownError: Error): BaseError {
   }
 
   // During production, you might want to do something with the error object.
-  if (env.isProduction) {
+  if (Configuration.isProduction()) {
     // Such as obscuring Database Errors on production
     if (error instanceof DatabaseError) {
       error.message = 'Oops! Something went wrong in the database.';

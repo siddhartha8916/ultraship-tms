@@ -1,8 +1,8 @@
-import { InternalServerError, UnauthenticatedError } from '@/errors/index.js';
+import { UnauthenticatedError } from '@/errors/index.js';
 import { IContext } from '@/shared/interfaces/index.js';
 import { bcryptUtil, createSchemaValidator } from '@/utils/index.js';
 import { z } from 'zod';
-import { User, UserSchema } from '@/db/schema/index.js';
+import { User, UserFull, UserSchema } from '@/db/schema/index.js';
 import { db } from '@/db/index.js';
 
 const dtoSchema = z.object({
@@ -18,16 +18,12 @@ type LoginUseCaseResult = {
 export async function loginUseCase(dto: LoginDTO, ctx: IContext): Promise<LoginUseCaseResult> {
   const { email, password } = await validateDTO(dto);
 
-  const user = await db.select("*").table("users").where("email", "=", email).first();
+  const user = (await db.select('*').table('users').where('email', '=', email).first()) as UserFull | undefined;
 
   if (user) {
-    const isValidPassword = await bcryptUtil.verify(password, user.hashedPassword);
+    const isValidPassword = await bcryptUtil.verify(password, user.hashed_password);
 
     if (isValidPassword) {
-      if (!ctx.res || !ctx.req) {
-        throw new InternalServerError('[User] Login - `req` or `res` object does not exist');
-      }
-
       return {
         user,
       };

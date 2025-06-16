@@ -10,4 +10,5 @@ export interface IContext {
    * This field will only be populated from the create context middleware.
    * */
   readonly userId: string | null;
+  readonly role: string | null;
 }
