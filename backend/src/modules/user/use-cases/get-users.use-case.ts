@@ -4,6 +4,8 @@ import { z } from 'zod';
 import { db } from '@/db/index.js';
 import { createSchemaValidator } from '@/utils/index.js';
 import { User } from '@/db/schema/index.js';
+import graphqlFields from 'graphql-fields';
+import { GraphQLResolveInfo } from 'graphql';
 
 const dtoSchema = z.object({
   offset: z.number(),
@@ -15,12 +17,20 @@ export type GetUsersDTO = z.infer<typeof dtoSchema>;
 type GetUsersUseCaseResult = {
   data: User[];
 };
-export async function getUsersUseCase(dto: GetUsersDTO, ctx: IContext): Promise<GetUsersUseCaseResult> {
+
+export async function getUsersUseCase(dto: GetUsersDTO, ctx: IContext, info?: GraphQLResolveInfo): Promise<GetUsersUseCaseResult> {
   await checkAuthentication(ctx);
 
   const { offset, limit } = await validateDTO(dto);
 
-  const users = await db.select().table('users').offset(offset).limit(limit) as User[];
+  let selectedColumns: string[] = ['id', 'first_name', 'middle_name', 'email'];
+
+  if (info) {
+    const infoFields = graphqlFields(info);
+    selectedColumns = Object.keys(infoFields);
+  }
+
+  const users = (await db('users').select(selectedColumns).offset(offset).limit(limit)) as User[];
 
   return {
     data: users,
