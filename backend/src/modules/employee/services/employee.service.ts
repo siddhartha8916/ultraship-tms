@@ -34,7 +34,7 @@ async function listAllEmployees({ selectedColumns, filter, pagination }: ListAll
 
   if (pagination) {
     const { limit = 10, page = 0 } = pagination;
-    query = query.limit(limit).offset(page);
+    query = query.limit(limit).offset(page * limit);
   }
 
   const employees = (await query) as Employee[];
