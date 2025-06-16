@@ -1,15 +1,13 @@
 import { GQL_MutationResolvers } from '@/generated/graphql/index.js';
 import { createEmployeesUseCase } from '../../use-cases/create-employee.use-case.js';
 import { employeeFactory } from '../../factories/employee.factory.js';
-import { EmployeeInput, EmployeeUpdate } from '../../schema/index.js';
+import { EmployeeInput, EmployeeStatus, EmployeeUpdate } from '../../schema/index.js';
 import { mapGQLEmployeeStatusToInternal, mapGQLEmploymentTypeToInternal } from '../../utils.ts/index.js';
 import { updateEmployeeUseCase } from '../../use-cases/update-employee.use-case.js';
+import { BadRequestError } from '@/errors/bad-request.error.js';
+import { BadInputError } from '@/errors/bad-input.error.js';
 
 export const createEmployeeResolver: GQL_MutationResolvers['createEmployee'] = async (root, args, ctx) => {
-  if (!args.input || !args.input.user_id) {
-    throw new Error('Input and user_id are required to create an employee');
-  }
-
   const employeeInput: EmployeeInput = {
     user_id: args.input.user_id,
     hire_date: new Date(args.input.hire_date),
@@ -43,7 +41,7 @@ export const updateEmployeeResolver: GQL_MutationResolvers['updateEmployee'] = a
   const user_id = args?.user_id;
 
   if (!user_id) {
-    throw new Error('Input and user_id are required to update an employee');
+    throw new BadInputError({ message: ['Input and user_id are required to update an employee'] });
   }
 
   const updateFields: EmployeeUpdate = {
@@ -90,7 +88,35 @@ export const updateEmployeeResolver: GQL_MutationResolvers['updateEmployee'] = a
   const result = await updateEmployeeUseCase(updateFields, ctx);
 
   if (!result.data) {
-    throw new Error(`Failed to update employee with ID ${user_id}`);
+    throw new BadRequestError({
+      message: [`Employee with user_id ${user_id} not found or update failed.`],
+      code: ['EMPLOYEE_NOT_UPDATED'],
+    });
+  }
+
+  return employeeFactory.createGQLEmployee(result.data);
+};
+
+export const deleteEmployeeResolver: GQL_MutationResolvers['deleteEmployee'] = async (root, args, ctx) => {
+  const user_id = args.user_id;
+
+  if (!user_id) {
+    throw new BadRequestError({
+      message: ['User ID is required to delete an employee'],
+      code: ['USER_ID_REQUIRED'],
+    });
+  }
+
+  const result = await updateEmployeeUseCase(
+    { user_id, employee_status: EmployeeStatus.TERMINATED }, // Assuming 'Terminated' is the status for deletion
+    ctx,
+  );
+
+  if (!result.data) {
+    throw new BadRequestError({
+      message: [`Employee with user_id ${user_id} not found or deletion failed.`],
+      code: ['EMPLOYEE_NOT_DELETED'],
+    });
   }
 
   return employeeFactory.createGQLEmployee(result.data);

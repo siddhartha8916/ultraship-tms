@@ -93,5 +93,5 @@ extend type Mutation {
   updateEmployee(user_id: ID!, input: EmployeeUpdateInput!): Employee!
 
   # 5. Delete an employee
-  deleteEmployee(user_id: ID!): Boolean!
+  deleteEmployee(user_id: ID!): Employee!
 }
