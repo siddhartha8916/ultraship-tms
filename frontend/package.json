@@ -11,14 +11,20 @@
     "lint:structure": "node scripts/check-feature-structure.cjs"
   },
   "dependencies": {
+    "@heroui/navbar": "^2.2.19",
     "@heroui/react": "^2.7.10",
+    "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "heroui-cli": "^1.2.3",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-router": "^7.6.2",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/node": "^24.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",
