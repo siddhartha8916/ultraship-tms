@@ -51,9 +51,6 @@ importers:
       globals:
         specifier: ^16.0.0
         version: 16.2.0
-      husky:
-        specifier: ^9.1.7
-        version: 9.1.7
       postcss:
         specifier: ^8.5.5
         version: 8.5.5
@@ -2117,11 +2114,6 @@ packages:
   heroui-cli@1.2.3:
     resolution: {integrity: sha512-q5Cs+jjogTI5LQLKatQtp1XAn/rpgB30G+IUvVtzwEX4NTl3mNM2RCZzlRvf3mNqltGtiyBq2hoBZyLr/XMl1g==}
     engines: {pnpm: '>=9.x'}
-    hasBin: true
-
-  husky@9.1.7:
-    resolution: {integrity: sha512-5gs5ytaNjBrh5Ow3zrvdUUY+0VxIuWVL4i9irt6friV+BqdCfmV11CQTWMiBYWHbXhco+J1kHfTOUkePhCDvMA==}
-    engines: {node: '>=18'}
     hasBin: true
 
   ignore@5.3.2:
@@ -5715,8 +5707,6 @@ snapshots:
       ora: 8.0.1
       pathe: 1.1.2
       tar: 6.2.1
-
-  husky@9.1.7: {}
 
   ignore@5.3.2: {}
 
