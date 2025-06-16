@@ -3,8 +3,7 @@ import { User } from '@/db/schema/index.js';
 import { NotFoundError } from '@/errors/index.js';
 
 async function findByIdOrThrow(userId: string): Promise<User> {
-  const user = await db.select('').table('users').where('id', '=', userId).first() as User;
-
+  const user = (await db.select().table('users').where('id', '=', userId).first()) as User;
   if (!user) {
     throw new NotFoundError(`User (${userId}) not found.`);
   }
@@ -13,7 +12,7 @@ async function findByIdOrThrow(userId: string): Promise<User> {
 }
 
 async function findByIds(ids: string[]): Promise<User[]> {
-  const users = await db.select().table('users').where('id', 'in', ids) as User[];
+  const users = (await db.select().table('users').where('id', 'in', ids)) as User[];
 
   return users;
 }

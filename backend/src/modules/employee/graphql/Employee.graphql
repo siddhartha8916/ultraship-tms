@@ -1,0 +1,69 @@
+scalar DateTime
+
+type Employee {
+  user_id: ID!
+  user: User
+  job_title: String!
+  department: String
+  hire_date: DateTime!
+  employment_type: String
+  employee_status: String
+  work_location: String
+  salary: Float
+  bonus: Float
+  bank_account: String
+  benefits_eligible: Boolean
+  leave_balance: Int
+  work_shift: String
+  created_at: DateTime
+  updated_at: DateTime
+}
+
+input EmployeeInput {
+  user_id: ID!
+  job_title: String!
+  department: String
+  hire_date: DateTime!
+  employment_type: String
+  employee_status: String
+  work_location: String
+  salary: Float
+  bonus: Float
+  bank_account: String
+  benefits_eligible: Boolean
+  leave_balance: Int
+  work_shift: String
+}
+
+input EmployeeFilter {
+  department: String
+  employment_type: String
+  employee_status: String
+  work_location: String
+  minSalary: Float
+  maxSalary: Float
+}
+
+input PaginationInput {
+  page: Int!
+  limit: Int!
+}
+
+extend type Query {
+  # 1. Get a list of employees (with filters and pagination)
+  listEmployees(filter: EmployeeFilter, pagination: PaginationInput): [Employee!]!
+
+  # 2. Get a single employee by user_id
+  getEmployee(user_id: ID!): Employee
+}
+
+extend type Mutation {
+  # 3. Create a new employee
+  createEmployee(input: EmployeeInput!): Employee!
+
+  # 4. Update an existing employee
+  updateEmployee(user_id: ID!, input: EmployeeInput!): Employee!
+
+  # 5. Delete an employee
+  deleteEmployee(user_id: ID!): Boolean!
+}

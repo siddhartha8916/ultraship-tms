@@ -7,9 +7,6 @@ CREATE DATABASE ultraship_tms_db;
 CREATE SCHEMA IF NOT EXISTS tms_schema;
 
 -- Drop tables if they exist (for development/reset purposes)
-DROP TABLE IF EXISTS attendance;
-DROP TABLE IF EXISTS employee_classes;
-DROP TABLE IF EXISTS classes;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS users;
 
@@ -22,46 +19,34 @@ CREATE TABLE tms_schema.users (
   email VARCHAR(255) NOT NULL UNIQUE,
   hashed_password VARCHAR(255) NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  updated_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP
 );
 
 
 -- 2. Employees table (extends users)
 CREATE TABLE tms_schema.employees (
-  id UUID PRIMARY KEY, 
-  user_id UUID NOT NULL UNIQUE,
-  hire_date DATE,
-  FOREIGN KEY (user_id) REFERENCES tms_schema.users(id) ON DELETE CASCADE
-);
+  user_id            UUID PRIMARY KEY,
+  job_title          VARCHAR(100) NOT NULL,
+  department         VARCHAR(100),
+  hire_date          DATE NOT NULL,
+  employment_type    VARCHAR(50),
+  employee_status    VARCHAR(50),
+  work_location      VARCHAR(100),
+  salary             DECIMAL(10, 2),
+  bonus              DECIMAL(10, 2),
+  bank_account       VARCHAR(50),
+  benefits_eligible  BOOLEAN DEFAULT FALSE,
+  leave_balance      INT DEFAULT 0,
+  work_shift         VARCHAR(50),
+  created_at         TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at         TIMESTAMP,
 
--- 3. Classes table
-CREATE TABLE tms_schema.classes (
-  id UUID PRIMARY KEY,
-  name VARCHAR(100) NOT NULL,
-  subject VARCHAR(100) NOT NULL
+  -- Foreign key to users table
+  CONSTRAINT fk_employee_user
+    FOREIGN KEY (user_id)
+    REFERENCES tms_schema.users(id)
+    ON DELETE CASCADE
 );
-
--- 4. Employee-to-Class mapping (many-to-many)
-CREATE TABLE tms_schema.employee_classes (
-  employee_id UUID NOT NULL,
-  class_id UUID NOT NULL,
-  PRIMARY KEY (employee_id, class_id),
-  FOREIGN KEY (employee_id) REFERENCES tms_schema.employees(id) ON DELETE CASCADE,
-  FOREIGN KEY (class_id) REFERENCES tms_schema.classes(id) ON DELETE CASCADE
-);
-
--- 5. Attendance table
-CREATE TABLE tms_schema.attendance (
-  id UUID PRIMARY KEY,
-  employee_id UUID NOT NULL,
-  class_id UUID,
-  date DATE NOT NULL,
-  status VARCHAR(20) NOT NULL CHECK (status IN ('Present', 'Absent', 'Late')),
-  FOREIGN KEY (employee_id) REFERENCES tms_schema.employees(id),
-  FOREIGN KEY (class_id) REFERENCES tms_schema.classes(id),
-  UNIQUE (employee_id, date)
-);
-
 
 -- Create the user
 CREATE USER tms_user WITH PASSWORD 'tms_pwd';
