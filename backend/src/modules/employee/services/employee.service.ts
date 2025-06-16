@@ -42,6 +42,12 @@ async function listAllEmployees({ selectedColumns, filter, pagination }: ListAll
   return employees;
 }
 
+async function getEmployeeById({ selectedColumns, user_id }: { selectedColumns: string[]; user_id: string }): Promise<Employee | null> {
+  const employee = (await db.select(selectedColumns).from('employees').where('user_id', '=', user_id).first()) as Employee;
+  return employee || null;
+}
+
 export const employeeService = {
   listAllEmployees,
+  getEmployeeById,
 };

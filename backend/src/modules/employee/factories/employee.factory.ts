@@ -22,6 +22,8 @@ function createGQLEmployee(employee: Employee): GQL_Employee {
     work_shift: employee.work_shift,
     created_at: employee.created_at,
     updated_at: employee.updated_at,
+    // Resolved separately at the resolver, so we set it to null here
+    user: null as any,
   };
 }
 
