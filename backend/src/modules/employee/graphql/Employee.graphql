@@ -1,13 +1,26 @@
 scalar DateTime
 
+enum EmploymentType {
+  Full_time
+  Part_time
+  Contract
+  Intern
+}
+
+enum EmployeeStatus {
+  Active
+  On_Leave
+  Terminated
+}
+
 type Employee {
   user_id: ID!
   user: User
   job_title: String!
   department: String
   hire_date: DateTime!
-  employment_type: String
-  employee_status: String
+  employment_type: EmploymentType!
+  employee_status: EmployeeStatus!
   work_location: String
   salary: Float
   bonus: Float
@@ -24,10 +37,10 @@ input EmployeeInput {
   job_title: String!
   department: String
   hire_date: DateTime!
-  employment_type: String
-  employee_status: String
+  employment_type: EmploymentType!
+  employee_status: EmployeeStatus!
   work_location: String
-  salary: Float
+  salary: Float!
   bonus: Float
   bank_account: String
   benefits_eligible: Boolean

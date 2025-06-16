@@ -3,21 +3,39 @@ import { z } from 'zod';
 const created_at = z.coerce.date();
 const updated_at = z.coerce.date();
 
+export enum EmployeeEmploymentType {
+  CONTRACT = 'Contract',
+  FULL_TIME = 'Full_time',
+  INTERN = 'Intern',
+  PART_TIME = 'Part_time',
+}
+
+export enum EmployeeStatus {
+  ACTIVE = 'Active',
+  ON_LEAVE = 'On_Leave',
+  TERMINATED = 'Terminated',
+}
+
 export const EmployeeSchema = z
   .object({
     user_id: z.string().uuid(),
     job_title: z.string().min(1),
     department: z.string().min(1),
     hire_date: z.coerce.date(),
-    employment_type: z.enum(['Full-time', 'Part-time', 'Contract', 'Intern']),
-    employee_status: z.enum(['Active', 'On Leave', 'Terminated']),
+    employment_type: z.enum([
+      EmployeeEmploymentType.FULL_TIME,
+      EmployeeEmploymentType.PART_TIME,
+      EmployeeEmploymentType.CONTRACT,
+      EmployeeEmploymentType.INTERN,
+    ]),
+    employee_status: z.enum([EmployeeStatus.ACTIVE, EmployeeStatus.ON_LEAVE, EmployeeStatus.TERMINATED]),
     work_location: z.string().min(1),
     salary: z.number().nonnegative(),
     bonus: z.number().nonnegative().optional(),
     bank_account: z.string().min(5),
     benefits_eligible: z.boolean().default(false),
     leave_balance: z.number().int().nonnegative().default(0),
-    work_shift: z.enum(['Morning', 'Evening', 'Night', 'Flexible']),
+    work_shift: z.string().min(1).default('Morning'),
   })
   .merge(
     z.object({
@@ -31,8 +49,15 @@ export type Employee = z.infer<typeof EmployeeSchema>;
 export const EmployeeFilterSchema = z
   .object({
     department: z.string().optional(),
-    employment_type: z.enum(['Full-time', 'Part-time', 'Contract', 'Intern']).optional(),
-    employee_status: z.enum(['Active', 'On Leave', 'Terminated']).optional(),
+    employment_type: z
+      .enum([
+        EmployeeEmploymentType.FULL_TIME,
+        EmployeeEmploymentType.PART_TIME,
+        EmployeeEmploymentType.CONTRACT,
+        EmployeeEmploymentType.INTERN,
+      ])
+      .optional(),
+    employee_status: z.enum([EmployeeStatus.ACTIVE, EmployeeStatus.ON_LEAVE, EmployeeStatus.TERMINATED]).optional(),
     work_location: z.string().optional(),
     minSalary: z.number().min(0).optional(),
     maxSalary: z.number().min(0).optional(),
@@ -58,3 +83,24 @@ export const PaginationInputSchema = z.object({
 });
 
 export type PaginationInput = z.infer<typeof PaginationInputSchema>;
+
+export const EmployeeInputSchema = EmployeeSchema.omit({
+  created_at: true,
+  updated_at: true,
+})
+  .partial()
+  .extend({
+    user_id: z.string().uuid(),
+    hire_date: z.coerce.date(),
+    job_title: z.string().min(1),
+    salary: z.number().nonnegative(),
+    employment_type: z.enum([
+      EmployeeEmploymentType.FULL_TIME,
+      EmployeeEmploymentType.PART_TIME,
+      EmployeeEmploymentType.CONTRACT,
+      EmployeeEmploymentType.INTERN,
+    ]),
+    employee_status: z.enum([EmployeeStatus.ACTIVE, EmployeeStatus.ON_LEAVE, EmployeeStatus.TERMINATED]),
+  });
+
+export type EmployeeInput = z.infer<typeof EmployeeInputSchema>;

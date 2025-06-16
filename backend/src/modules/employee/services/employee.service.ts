@@ -1,5 +1,6 @@
 import { db } from '@/db/index.js';
-import { Employee, EmployeeFilter, PaginationInput } from '../schema/index.js';
+import { Employee, EmployeeFilter, EmployeeInput, PaginationInput } from '../schema/index.js';
+import { BadRequestError } from '@/errors/bad-request.error.js';
 
 interface ListAllEmployeesInput {
   selectedColumns: string[];
@@ -47,7 +48,20 @@ async function getEmployeeById({ selectedColumns, user_id }: { selectedColumns: 
   return employee || null;
 }
 
+async function createEmployee(params: EmployeeInput): Promise<Employee> {
+  // Check if the employee already exists
+  const existingEmployee = await getEmployeeById({ selectedColumns: ['user_id'], user_id: params.user_id });
+
+  if (existingEmployee?.user_id) {
+    throw new BadRequestError({ message: [`Employee with user_id ${params.user_id} already exists.`], code: ['EMPLOYEE_ALREADY_EXISTS'] });
+  }
+
+  const [employee] = (await db('employees').insert(params).returning('*')) as Employee[];
+  return employee;
+}
+
 export const employeeService = {
   listAllEmployees,
   getEmployeeById,
+  createEmployee,
 };

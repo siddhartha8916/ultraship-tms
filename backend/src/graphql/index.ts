@@ -39,9 +39,7 @@ export const initApolloGraphqlServer = async (app: Express, httpServer: Server):
         ...gqlFormattedError,
         extensions: {
           ...gqlFormattedError.extensions,
-          code: err.errorCodename,
-          data: err.payload,
-          stacktrace: err.stack,
+          ...err.originalError,
         },
       };
     },
