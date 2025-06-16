@@ -104,3 +104,14 @@ export const EmployeeInputSchema = EmployeeSchema.omit({
   });
 
 export type EmployeeInput = z.infer<typeof EmployeeInputSchema>;
+
+export const EmployeeUpdateSchema = EmployeeSchema.omit({
+  created_at: true,
+  updated_at: true,
+})
+  .partial()
+  .extend({
+    user_id: z.string().uuid(),
+  });
+
+export type EmployeeUpdate = z.infer<typeof EmployeeUpdateSchema>;

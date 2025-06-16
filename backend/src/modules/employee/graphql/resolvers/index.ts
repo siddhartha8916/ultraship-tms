@@ -1,7 +1,7 @@
 import { GQL_Resolvers } from '@/generated/graphql/index.js';
 import { getEmployeeResolver, listEmployeesResolver } from './employee.query.js';
 import { userService } from '@/modules/user/services/user.service.js';
-import { createEmployeeResolver } from './employee.mutation.js';
+import { createEmployeeResolver, updateEmployeeResolver } from './employee.mutation.js';
 
 const resolvers: GQL_Resolvers = {
   Query: {
@@ -13,6 +13,7 @@ const resolvers: GQL_Resolvers = {
   },
   Mutation: {
     createEmployee: createEmployeeResolver,
+    updateEmployee: updateEmployeeResolver,
   },
 };
 export default resolvers;

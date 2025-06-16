@@ -62,6 +62,21 @@ input PaginationInput {
   limit: Int!
 }
 
+input EmployeeUpdateInput {
+  job_title: String
+  department: String
+  hire_date: DateTime
+  employment_type: EmploymentType
+  employee_status: EmployeeStatus
+  work_location: String
+  salary: Float
+  bonus: Float
+  bank_account: String
+  benefits_eligible: Boolean
+  leave_balance: Int
+  work_shift: String
+}
+
 extend type Query {
   # 1. Get a list of employees (with filters and pagination)
   listEmployees(filter: EmployeeFilter, pagination: PaginationInput): [Employee!]!
@@ -75,7 +90,7 @@ extend type Mutation {
   createEmployee(input: EmployeeInput!): Employee!
 
   # 4. Update an existing employee
-  updateEmployee(user_id: ID!, input: EmployeeInput!): Employee!
+  updateEmployee(user_id: ID!, input: EmployeeUpdateInput!): Employee!
 
   # 5. Delete an employee
   deleteEmployee(user_id: ID!): Boolean!

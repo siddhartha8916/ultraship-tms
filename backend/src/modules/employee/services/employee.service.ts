@@ -60,8 +60,29 @@ async function createEmployee(params: EmployeeInput): Promise<Employee> {
   return employee;
 }
 
+async function updateEmployeeDetailsById(
+  user_id: string,
+  updates: Partial<EmployeeInput>,
+  selectedColumns: string[] = ['*'], // optionally allow selecting specific fields after update
+): Promise<Employee> {
+  // Check if employee exists
+  const existingEmployee = await getEmployeeById({ selectedColumns: ['user_id'], user_id });
+
+  if (!existingEmployee) {
+    throw new BadRequestError({
+      message: [`Employee with user_id ${user_id} not found.`],
+      code: ['EMPLOYEE_NOT_FOUND'],
+    });
+  }
+
+  const [updatedEmployee] = (await db('employees').where({ user_id }).update(updates).returning(selectedColumns)) as Employee[];
+
+  return updatedEmployee;
+}
+
 export const employeeService = {
   listAllEmployees,
   getEmployeeById,
   createEmployee,
+  updateEmployeeDetailsById,
 };
