@@ -55,7 +55,12 @@ export default function AppNavbar() {
           <Link href="/auth/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button
+            as={Link}
+            color="primary"
+            href="/auth/register"
+            variant="flat"
+          >
             Sign Up
           </Button>
         </NavbarItem>

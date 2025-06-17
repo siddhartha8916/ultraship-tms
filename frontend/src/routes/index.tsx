@@ -1,4 +1,5 @@
 import LoginPage from "@/pages/auth/login";
+import RegisterPage from "@/pages/auth/register";
 import AuthLayout from "@/shared/components/layout/auth-layout";
 import DashboardLayout from "@/shared/components/layout/dashboard-layout";
 import {
@@ -14,7 +15,7 @@ const router = createBrowserRouter(
       {/* Authentication Routes*/}
       <Route path="/auth" element={<AuthLayout />}>
         <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<>Register Page</>} />
+        <Route path="register" element={<RegisterPage />} />
       </Route>
       {/* ====================== Application Routes ====================== */}
 
