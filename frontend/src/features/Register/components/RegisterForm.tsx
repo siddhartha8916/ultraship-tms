@@ -5,7 +5,7 @@ import useRegisterForm from "../hooks/useRegisterForm";
 export const RegisterForm = () => {
   const { handleSubmit, register, errors, isRegisterUserLoading } =
     useRegisterForm();
-
+    
   return (
     <Form
       className="w-full max-w-xl flex flex-col gap-6 bg-white p-10 rounded-xl shadow-lg"
@@ -23,6 +23,7 @@ export const RegisterForm = () => {
           labelPlacement="outside"
           placeholder="Enter your first name"
           errorMessage={errors.first_name?.message}
+          isInvalid={!!errors.first_name?.message}
         />
 
         <Input
@@ -31,6 +32,7 @@ export const RegisterForm = () => {
           labelPlacement="outside"
           placeholder="Enter your middle name"
           errorMessage={errors.middle_name?.message}
+          isInvalid={!!errors.middle_name?.message}
         />
       </div>
       <div className="flex items-center justify-between gap-3 w-full">
@@ -42,6 +44,7 @@ export const RegisterForm = () => {
           labelPlacement="outside"
           placeholder="Enter your last name"
           errorMessage={errors.last_name?.message}
+          isInvalid={!!errors.last_name?.message}
         />
         <RadioGroup
           {...register("role")}
@@ -65,6 +68,7 @@ export const RegisterForm = () => {
         placeholder="Enter your email"
         type="email"
         errorMessage={errors.email?.message}
+        isInvalid={!!errors.email?.message}
       />
 
       <Input
@@ -75,6 +79,7 @@ export const RegisterForm = () => {
         placeholder="Enter your password"
         type="password"
         errorMessage={errors.password?.message}
+        isInvalid={!!errors.password?.message}
       />
 
       <div className="flex gap-3 justify-between">
