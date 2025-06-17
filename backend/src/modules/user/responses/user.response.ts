@@ -10,6 +10,7 @@ export const ResponseUserFullSchema = z
     email: UserSchema.shape.email,
     created_at: UserSchema.shape.created_at,
     updated_at: UserSchema.shape.updated_at,
+    role: UserSchema.shape.role,
   })
   .extend({
     // We need the date objects to be serialized but in valid datetime format.

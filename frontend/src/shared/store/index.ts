@@ -1,12 +1,19 @@
 // store/useUserStore.ts
 import { create } from "zustand";
-import type { User, UserState } from "../types";
+import { persist } from "zustand/middleware";
+import type { User, UserState } from "../schema";
 
-// Create the Zustand store
-export const useUserStore = create<UserState>((set, get) => ({
-  currentUser: null,
-  getCurrentUser: () => get().currentUser,
-  updateCurrentUser: (user: User) => {
-    set({ currentUser: user });
-  },
-}));
+export const useUserStore = create<UserState>()(
+  persist(
+    (set, get) => ({
+      currentUser: null,
+      getCurrentUser: () => get().currentUser,
+      updateCurrentUser: (user: User) => {
+        set({ currentUser: user });
+      },
+    }),
+    {
+      name: "user-store",
+    }
+  )
+);

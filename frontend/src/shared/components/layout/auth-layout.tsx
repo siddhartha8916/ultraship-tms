@@ -18,10 +18,20 @@ const AuthLayout = () => {
 
   // Render the layout for authentication-related pages.
   return (
-    <div className={cn("h-screen flex flex-col flex-1 p-0 m-0")}>
-      <div className="grid">
+    <div className={cn("h-screen flex flex-col p-0 m-0")}>
+      <div className="flex-none">
         <AppNavbar />
+      </div>
+      <div className="flex-1 overflow-auto">
+        <div className="relative h-full w-screen">
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70"
+            style={{ backgroundImage: "url('/assets/login-bg.webp')" }}
+          />
+
+          <div className="absolute inset-0 bg-black opacity-40" />
         {outlet}
+        </div>
       </div>
     </div>
   );

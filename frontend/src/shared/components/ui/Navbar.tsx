@@ -1,3 +1,4 @@
+import { useUserStore } from "@/shared/store";
 import {
   Navbar,
   NavbarBrand,
@@ -6,6 +7,7 @@ import {
   Link,
   Button,
 } from "@heroui/react";
+import { useLocation } from "react-router";
 
 export const AcmeLogo = () => {
   return (
@@ -21,32 +23,36 @@ export const AcmeLogo = () => {
 };
 
 export default function AppNavbar() {
+  const { pathname } = useLocation();
+  const { currentUser } = useUserStore();
   return (
     <Navbar>
       <NavbarBrand>
         <AcmeLogo />
         <p className="font-bold text-inherit">ACME</p>
       </NavbarBrand>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link aria-current="page" href="#">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
-      </NavbarContent>
+      {currentUser?.id && (
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          <NavbarItem isActive={pathname === "/"}>
+            <Link color="foreground" href="/">
+              Home
+            </Link>
+          </NavbarItem>
+          <NavbarItem isActive={pathname === "/employees"}>
+            <Link aria-current="page" href="/employees" color="foreground">
+              Employees
+            </Link>
+          </NavbarItem>
+          <NavbarItem isActive={pathname === "/users"}>
+            <Link color="foreground" href="/users">
+              Users
+            </Link>
+          </NavbarItem>
+        </NavbarContent>
+      )}
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Link href="/auth/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
           <Button as={Link} color="primary" href="#" variant="flat">

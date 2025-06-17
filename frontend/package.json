@@ -13,17 +13,22 @@
   "dependencies": {
     "@heroui/navbar": "^2.2.19",
     "@heroui/react": "^2.7.10",
+    "@tanstack/react-query": "^5.80.7",
+    "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
     "heroui-cli": "^1.2.3",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router": "^7.6.2",
+    "sonner": "^2.0.5",
     "tailwind-merge": "^3.3.1",
+    "zod": "^3.25.67",
     "zustand": "^5.0.5"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@tanstack/eslint-plugin-query": "^5.78.0",
     "@types/node": "^24.0.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
