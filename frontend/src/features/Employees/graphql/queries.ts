@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_EMPLOYEES = gql`
   query GetAllEmployees($limit: Int!, $page: Int!) {
     listEmployees(pagination: { limit: $limit, page: $page }) {
+      user_id
       bank_account
       benefits_eligible
       bonus

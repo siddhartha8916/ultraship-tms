@@ -23,9 +23,11 @@ const columns = [
 export default function useEmployees() {
   const [currentPage, setCurrentPage] = useState(1);
   const { loading, error, data } = useGetAllEmployees({
-    limit: 10,
-    page: currentPage,
+    limit: 1,
+    page: currentPage - 1,
   });
+
+  console.log("Employees data:", data);
 
   return {
     loading,
