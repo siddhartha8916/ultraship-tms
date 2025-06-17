@@ -9,6 +9,7 @@ export const UserSchema = z.object({
   email: z.string().email(),
   created_at: z.string().datetime(),
   updated_at: z.string().datetime(),
+  role: z.enum(["admin", "employee"]),
 });
 
 export type User = z.infer<typeof UserSchema>;

@@ -6,7 +6,7 @@ export const RegisterSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   middle_name: z.string().optional(),
   last_name: z.string().min(1, "Last name is required"),
-  role: z.enum(["employee", "manager", "admin"]),
+  role: z.enum(["employee", "admin"]),
 });
 
 export type RegisterSchema = z.infer<typeof RegisterSchema>;
@@ -20,6 +20,7 @@ export const RegisterResponseSchema = z.object({
     email: z.string().email(),
     created_at: z.string().datetime(),
     updated_at: z.string().datetime(),
+    role: z.enum(["employee", "admin"]),
   }),
 });
 

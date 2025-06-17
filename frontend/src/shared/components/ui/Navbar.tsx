@@ -6,6 +6,12 @@ import {
   NavbarItem,
   Link,
   Button,
+  Dropdown,
+  DropdownTrigger,
+  Avatar,
+  DropdownMenu,
+  DropdownItem,
+  Chip,
 } from "@heroui/react";
 import { useLocation } from "react-router";
 
@@ -50,21 +56,53 @@ export default function AppNavbar() {
           </NavbarItem>
         </NavbarContent>
       )}
-      <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          <Link href="/auth/login">Login</Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Button
-            as={Link}
-            color="primary"
-            href="/auth/register"
-            variant="flat"
-          >
-            Sign Up
-          </Button>
-        </NavbarItem>
-      </NavbarContent>
+      {!currentUser?.id && (
+        <NavbarContent justify="end">
+          <NavbarItem className="hidden lg:flex">
+            <Link href="/auth/login">Login</Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Button
+              as={Link}
+              color="primary"
+              href="/auth/register"
+              variant="flat"
+            >
+              Sign Up
+            </Button>
+          </NavbarItem>
+        </NavbarContent>
+      )}
+      {currentUser?.id && (
+        <NavbarContent as="div" justify="end">
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Avatar
+                isBordered
+                as="button"
+                className="transition-transform"
+                color="secondary"
+                name="Jason Hughes"
+                size="sm"
+                src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              />
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Profile Actions" variant="flat" color="primary">
+              <DropdownItem key="profile" className="relative h-14 gap-2">
+                <Chip className="absolute right-0" size="sm" color="primary">
+                  {currentUser?.role}
+                </Chip>
+                <p className="font-semibold">Signed in as</p>
+                <p className="font-semibold">{currentUser?.email}</p>
+              </DropdownItem>
+              <DropdownItem key="my-profile">My Profile</DropdownItem>
+              <DropdownItem key="logout" color="danger">
+                Log Out
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+        </NavbarContent>
+      )}
     </Navbar>
   );
 }
