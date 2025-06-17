@@ -11,14 +11,18 @@
     "lint:structure": "node scripts/check-feature-structure.cjs"
   },
   "dependencies": {
+    "@apollo/client": "^3.13.8",
     "@heroui/navbar": "^2.2.19",
+    "@heroui/pagination": "^2.2.19",
     "@heroui/react": "^2.7.10",
     "@hookform/resolvers": "^5.1.1",
     "@tanstack/react-query": "^5.80.7",
     "axios": "^1.10.0",
     "clsx": "^2.1.1",
     "framer-motion": "^12.18.1",
+    "graphql": "^16.11.0",
     "heroui-cli": "^1.2.3",
+    "lucide-react": "^0.516.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.58.0",

@@ -17,7 +17,7 @@ export type User = z.infer<typeof UserSchema>;
 export const UserStateSchema = z.object({
   currentUser: UserSchema.nullable(),
   getCurrentUser: z.function().returns(UserSchema.nullable()),
-  updateCurrentUser: z.function().args(UserSchema).returns(z.void()),
+  updateCurrentUser: z.function().args(UserSchema.nullable()).returns(z.void()),
 });
 
 export type UserState = z.infer<typeof UserStateSchema>;

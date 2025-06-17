@@ -3,7 +3,7 @@ import jwtAuthenticator from '@/utils/jwt.util.js';
 import { Request, Response, NextFunction } from 'express';
 
 export const checkAuthToken = async (req: Request, res: Response, next: NextFunction) => {
-  if (['/api/v1/auth/login', '/api/v1/auth/register'].includes(req.path)) {
+  if (['/api/v1/auth/login', '/api/v1/auth/register', '/api/v1/auth/logout'].includes(req.path)) {
     return next(); // Skip authentication for login and register routes
   }
   const token = req.cookies.authToken;

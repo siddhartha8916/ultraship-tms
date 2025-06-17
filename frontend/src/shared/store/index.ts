@@ -8,7 +8,7 @@ export const useUserStore = create<UserState>()(
     (set, get) => ({
       currentUser: null,
       getCurrentUser: () => get().currentUser,
-      updateCurrentUser: (user: User) => {
+      updateCurrentUser: (user: User | null) => {
         set({ currentUser: user });
       },
     }),

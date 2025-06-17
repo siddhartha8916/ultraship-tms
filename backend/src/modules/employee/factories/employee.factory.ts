@@ -42,7 +42,7 @@ function mapEmploymentType(type: string): GQL_EmploymentType {
     case 'Intern':
       return GQL_EmploymentType.INTERN;
     default:
-      throw new Error(`Unknown employment type: ${type}`);
+      return GQL_EmploymentType.FULL_TIME;
   }
 }
 
@@ -55,7 +55,7 @@ function mapEmployeeStatus(status: string): GQL_EmployeeStatus {
     case 'Terminated':
       return GQL_EmployeeStatus.TERMINATED;
     default:
-      throw new Error(`Unknown employee status: ${status}`);
+      return GQL_EmployeeStatus.ACTIVE;
   }
 }
 

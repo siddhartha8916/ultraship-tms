@@ -1,3 +1,4 @@
+import { useLogoutUser } from "@/features/Login/services";
 import { useUserStore } from "@/shared/store";
 import {
   Navbar,
@@ -13,7 +14,8 @@ import {
   DropdownItem,
   Chip,
 } from "@heroui/react";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { toast } from "sonner";
 
 export const AcmeLogo = () => {
   return (
@@ -31,6 +33,21 @@ export const AcmeLogo = () => {
 export default function AppNavbar() {
   const { pathname } = useLocation();
   const { currentUser } = useUserStore();
+  const navigate = useNavigate();
+  const { mutateAsync: logoutUser, isPending: isLogoutUserPending } =
+    useLogoutUser();
+  const updateCurrentUser = useUserStore((state) => state.updateCurrentUser);
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      updateCurrentUser(null);
+      navigate("/auth/login");
+      toast.success("Logout successful!");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
   return (
     <Navbar>
       <NavbarBrand>
@@ -87,7 +104,11 @@ export default function AppNavbar() {
                 src="https://i.pravatar.cc/150?u=a042581f4e29026704d"
               />
             </DropdownTrigger>
-            <DropdownMenu aria-label="Profile Actions" variant="flat" color="primary">
+            <DropdownMenu
+              aria-label="Profile Actions"
+              variant="flat"
+              color="primary"
+            >
               <DropdownItem key="profile" className="relative h-14 gap-2">
                 <Chip className="absolute right-0" size="sm" color="primary">
                   {currentUser?.role}
@@ -96,7 +117,12 @@ export default function AppNavbar() {
                 <p className="font-semibold">{currentUser?.email}</p>
               </DropdownItem>
               <DropdownItem key="my-profile">My Profile</DropdownItem>
-              <DropdownItem key="logout" color="danger">
+              <DropdownItem
+                key="logout"
+                color="danger"
+                aria-disabled={isLogoutUserPending}
+                onClick={handleLogout}
+              >
                 Log Out
               </DropdownItem>
             </DropdownMenu>

@@ -10,3 +10,9 @@ export const loginUser = async ({
   const { data } = await axiosApiClient.post(AuthApiPaths.LOGIN_USER, body);
   return data;
 };
+
+
+export const logoutUser = async (): Promise<void> => {
+  const { data } = await axiosApiClient.post(AuthApiPaths.LOGOUT_USER);
+  return data;
+};
