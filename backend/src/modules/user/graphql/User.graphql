@@ -10,6 +10,8 @@ type User implements Node {
   email: EmailAddress
   created_at: DateTime
   updated_at: DateTime
+  role: String
+  is_employee: Boolean
 }
 
 extend type Query {

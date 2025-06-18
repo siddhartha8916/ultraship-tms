@@ -31,6 +31,7 @@ function createGQLUser(user: User): GQL_User {
     email: user.email,
     created_at: user.created_at,
     updated_at: user.updated_at,
+    role: user.role,
 
     /**
      * Fields that have their own field resolvers should be set to `null`

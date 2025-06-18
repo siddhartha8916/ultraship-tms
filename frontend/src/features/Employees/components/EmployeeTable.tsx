@@ -22,6 +22,8 @@ import {
 import React from "react";
 import type { ColumnKey, Employee } from "../models";
 import { useUserStore } from "@/shared/store";
+import useUpdateEmployeeModalStore from "../state";
+import ConvertUserToEmployee from "@/features/Users/components/ConvertUserToEmployee";
 
 export const EmployeesTable = () => {
   const {
@@ -32,8 +34,10 @@ export const EmployeesTable = () => {
     error,
     currentPage,
     setCurrentPage,
+    deleteEmployeeHandler,
   } = useEmployees();
   const currentUser = useUserStore((state) => state.currentUser);
+  const { openModal } = useUpdateEmployeeModalStore();
 
   const renderCell = React.useCallback(
     (employee: Employee, columnKey: ColumnKey) => {
@@ -121,14 +125,16 @@ export const EmployeesTable = () => {
               {currentUser?.role === "admin" && (
                 <Tooltip content="Edit employee">
                   <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                    <PencilIcon />
+                    <PencilIcon onClick={() => openModal(employee)} />
                   </span>
                 </Tooltip>
               )}
               {currentUser?.role === "admin" && (
                 <Tooltip color="danger" content="Delete employee">
                   <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                    <Trash2 />
+                    <Trash2
+                      onClick={() => deleteEmployeeHandler(employee.user.id)}
+                    />
                   </span>
                 </Tooltip>
               )}
@@ -157,6 +163,7 @@ export const EmployeesTable = () => {
 
   return (
     <>
+      <ConvertUserToEmployee />
       {!data?.listEmployees?.length ? (
         <div className="w-full flex items-center justify-center h-full text-gray-500">
           No data found.

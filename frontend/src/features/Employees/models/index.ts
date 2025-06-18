@@ -69,7 +69,6 @@ export type GQL_EmployeeResponse = {
   listEmployees: Employee[];
 };
 
-
 export type ColumnKey =
   | "name"
   | "email"
@@ -78,3 +77,28 @@ export type ColumnKey =
   | "employee_status"
   | "salary"
   | "actions";
+
+export type GQL_DeleteEmployeeResponse = {
+  deleteEmployee: {
+    employee_status: "Terminated";
+  };
+};
+
+export type GQL_UpdateEmployeeResponse = {
+  updateEmployee: Employee;
+}
+
+export type EmployeeUpdateInput = Partial<{
+  job_title: string;
+  department: string;
+  hire_date: string;
+  employment_type: "Full_time" | "Part_time" | "Contract" | "Intern";
+  employee_status: "Active" | "On_leave" | "Terminated";
+  work_location: string;
+  salary: number;
+  bonus: number;
+  bank_account: string;
+  benefits_eligible: boolean;
+  leave_balance: number;
+  work_shift: string;
+}>;

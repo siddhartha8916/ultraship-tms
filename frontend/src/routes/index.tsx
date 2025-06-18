@@ -1,4 +1,5 @@
 import EmployeesPage from "@/pages/app/employees";
+import { HomePage } from "@/pages/app/home";
 import UsersPage from "@/pages/app/users";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
@@ -22,7 +23,7 @@ const router = createBrowserRouter(
       {/* ====================== Application Routes ====================== */}
 
       <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<>Home Page</>} />
+        <Route index element={<HomePage />} />
         <Route path="/employees" element={<EmployeesPage />} />
         <Route path="/users" element={<UsersPage />} />
       </Route>

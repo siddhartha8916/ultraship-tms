@@ -31,6 +31,8 @@ async function listAllEmployees({ selectedColumns, filter, pagination }: ListAll
     if (filter.maxSalary !== undefined) {
       query = query.where('salary', '<=', filter.maxSalary);
     }
+    // Filter all employee if the employee_status is Terminated
+    query = query.whereNot('employee_status', 'Terminated');
   }
 
   if (pagination) {

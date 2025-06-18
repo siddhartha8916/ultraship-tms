@@ -26,7 +26,7 @@ const cache = new InMemoryCache({
       fields: {
         listEmployees: {
           merge(_, incoming) {
-            return incoming;
+            return incoming; 
           },
         },
       },

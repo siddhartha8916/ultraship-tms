@@ -27,10 +27,13 @@ export async function getUsersUseCase(dto: GetUsersDTO, ctx: IContext, info?: Gr
 
   if (info) {
     const infoFields = graphqlFields(info);
-    selectedColumns = Object.keys(infoFields);
+    selectedColumns = Object.keys(infoFields).filter((field) => field !== 'full_name' && field !== '__typename' && field !== 'is_employee');
   }
 
-  const users = (await db('users').select(selectedColumns).offset(offset).limit(limit)) as User[];
+  const users = (await db('users')
+    .select(selectedColumns)
+    .offset(offset * limit)
+    .limit(limit)) as User[];
 
   return {
     data: users,
