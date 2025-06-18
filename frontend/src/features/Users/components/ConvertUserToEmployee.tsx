@@ -72,6 +72,8 @@ export default function ConvertUserToEmployee() {
       user_id: selectedUserId || "",
       leave_balance: 30,
       benefits_eligible: true,
+      work_shift: "Morning",
+      employment_type: "Full_time",
     },
   });
   const [convertToEmployee, result] = useConvertToEmployee();
@@ -162,11 +164,16 @@ export default function ConvertUserToEmployee() {
     { key: "On_leave", label: "On Leave" },
   ];
 
+  const handleModalClose = () => {
+    closeUpdateModal();
+    closeModal();
+  };
+
   return (
     <Modal
       isOpen={isCreateEmployeeModalOpen || isUpdateEmployeeModalOpen}
       size={"4xl"}
-      onClose={closeModal}
+      onClose={handleModalClose}
       aria-label="Create Employee Modal"
     >
       <ModalContent>

@@ -6,7 +6,7 @@ export const RegisterSchema = z.object({
   first_name: z.string().min(1, "First name is required"),
   middle_name: z.string().optional(),
   last_name: z.string().min(1, "Last name is required"),
-  role: z.enum(["employee", "admin"]),
+  role: z.string(),
 });
 
 export type RegisterSchema = z.infer<typeof RegisterSchema>;

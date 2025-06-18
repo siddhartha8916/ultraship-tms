@@ -19,9 +19,13 @@ export default function useRegisterForm() {
     handleSubmit: useFormHandleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(Schema),
   });
+
+  console.log("Register form watch:", watch());
 
   const handleSubmit = useFormHandleSubmit(async (formData) => {
     try {
@@ -40,5 +44,6 @@ export default function useRegisterForm() {
     handleSubmit,
     errors,
     isRegisterUserLoading,
+    setValue
   };
 }
