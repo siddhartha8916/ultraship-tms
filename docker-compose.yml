@@ -27,19 +27,28 @@ services:
           memory: 300M
 
   tms-api:
-    image: ultrashiptms:latest
-    user: node
-    command: pnpm start
-    restart: always
-    volumes:
-      - ./:/usr/src/app
+    container_name: ultrashiptms-backend-container
+    image: ultrashiptms-backend:latest
     depends_on:
       - tms-db
-    ports:
-      - '8080:8080'
-    tty: true
     environment:
       POSTGRES_CONNECTION_URL: postgresql://tms_user:tms_pwd@tms-db:5432/ultraship_tms_db
-      
+      JWT_SECRET: 'my-custom-secret'
+      NODE_ENV: 'production'
+      PORT: 8080
+      X_REQUEST_HEADER: 'x-request-id-random'
+
+  tms-frontend:
+    container_name: ultrashiptms-frontend-container
+    image: ultrashiptms-frontend:latest
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    restart: always
+    depends_on:
+      - tms-api
+      - tms-db
+
 volumes:
   db-data:

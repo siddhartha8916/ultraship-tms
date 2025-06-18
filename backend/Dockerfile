@@ -9,7 +9,6 @@ WORKDIR /usr/src/app
 
 RUN npm install -g pnpm
 
-COPY .husky/install.mjs .husky/install.mjs
 COPY package.json ./
 COPY pnpm-lock.yaml ./
 RUN ls -al
@@ -36,7 +35,6 @@ EXPOSE 8080
 WORKDIR /usr/src/app
 
 # Copy the necessary files from the builder stage to this stage
-COPY .husky/install.mjs .husky/install.mjs
 COPY --chown=node:node --from=builder /usr/src/app/build .
 
 RUN npm install -g pnpm

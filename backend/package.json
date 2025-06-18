@@ -3,7 +3,6 @@
   "type": "module",
   "private": true,
   "scripts": {
-    "prepare": "node .husky/install.mjs",
     "start": "gulp dev",
     "build": "gulp build",
     "build:prod": "gulp build --prod",
