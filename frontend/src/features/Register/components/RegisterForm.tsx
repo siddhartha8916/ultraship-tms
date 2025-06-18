@@ -3,9 +3,9 @@ import { Form, Input, Button, RadioGroup, Radio } from "@heroui/react";
 import useRegisterForm from "../hooks/useRegisterForm";
 
 export const RegisterForm = () => {
-  const { handleSubmit, register, errors, isRegisterUserLoading } =
+  const { handleSubmit, register, errors, isRegisterUserLoading, setValue } =
     useRegisterForm();
-    
+
   return (
     <Form
       className="w-full max-w-xl flex flex-col gap-6 bg-white p-10 rounded-xl shadow-lg"
@@ -47,13 +47,14 @@ export const RegisterForm = () => {
           isInvalid={!!errors.last_name?.message}
         />
         <RadioGroup
-          {...register("role")}
           isRequired
           label="Role"
           className="space-y-2 w-1/2"
           orientation="horizontal"
           errorMessage={errors.role?.message}
           defaultValue="employee"
+          isInvalid={!!errors.role?.message}
+          onValueChange={(value) => setValue("role", value)}
         >
           <Radio value="employee">Employee</Radio>
           <Radio value="admin">Admin</Radio>
