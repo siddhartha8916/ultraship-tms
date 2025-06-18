@@ -27,15 +27,13 @@ export default function useEmployees() {
     page: currentPage - 1,
   });
 
-  console.log("Employees data:", data);
-
   return {
     loading,
     error,
     data,
     columns,
     statusColorMap,
+    currentPage,
     setCurrentPage,
-    currentPage
   };
 }

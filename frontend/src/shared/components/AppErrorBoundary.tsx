@@ -6,7 +6,7 @@ interface State {
   error: Error | null;
 }
 
-export class EmployeeErrorBoundary extends React.Component<
+export class AppErrorBoundary extends React.Component<
   { children: React.ReactNode },
   State
 > {

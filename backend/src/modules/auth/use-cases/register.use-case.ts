@@ -27,7 +27,7 @@ export async function registerUseCase(dto: RegisterDTO, ctx: IContext): Promise<
 
   const existingEmail = await db.select('email').table('users').where('email', '=', email).first();
   if (existingEmail) {
-    throw new BadInputError({ email: ['Email already taken'] });
+    throw new BadInputError({ message: ['Email already taken'] });
   }
 
   const user = (await db('users').insert(

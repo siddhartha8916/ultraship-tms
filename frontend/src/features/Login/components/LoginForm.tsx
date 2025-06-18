@@ -2,7 +2,7 @@ import { Form, Input, Button } from "@heroui/react";
 import useLoginForm from "../hooks/useLoginForm";
 
 export const LoginForm = () => {
-  const { handleSubmit } = useLoginForm();
+  const { handleSubmit, isLoginUserLoading } = useLoginForm();
 
   return (
     <Form
@@ -33,7 +33,7 @@ export const LoginForm = () => {
       />
 
       <div className="flex gap-3 justify-between">
-        <Button color="primary" type="submit" className="w-full">
+        <Button color="primary" type="submit" className="w-full" isLoading={isLoginUserLoading}>
           Submit
         </Button>
         <Button type="reset" variant="flat" className="w-full">

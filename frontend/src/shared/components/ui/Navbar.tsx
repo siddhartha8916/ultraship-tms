@@ -66,11 +66,13 @@ export default function AppNavbar() {
               Employees
             </Link>
           </NavbarItem>
-          <NavbarItem isActive={pathname === "/users"}>
-            <Link color="foreground" href="/users">
-              Users
-            </Link>
-          </NavbarItem>
+          {currentUser?.role === "admin" && (
+            <NavbarItem isActive={pathname === "/users"}>
+              <Link color="foreground" href="/users">
+                Users
+              </Link>
+            </NavbarItem>
+          )}
         </NavbarContent>
       )}
       {!currentUser?.id && (

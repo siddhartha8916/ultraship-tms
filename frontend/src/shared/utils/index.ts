@@ -11,20 +11,36 @@ export function cn(...inputs: ClassValue[]) {
 
 export const parseApiError = (error: unknown): string => {
   let errorMessage = "An unexpected error occurred";
-  console.error("Error :>>", error);
-  // Handle Axios errors
+
   if (error instanceof AxiosError) {
     const errData = error.response?.data as AppSurveyError;
-    console.error("Axios API Error :>> ", errData);
 
-    if (errData?.message) {
-      errorMessage = Array.isArray(errData.message)
-        ? errData.message.join(", ")
-        : errData.message;
+    const nestedMessage = errData?.data?.message;
+
+    const topLevelMessage = errData?.message;
+
+    if (typeof topLevelMessage === "string") {
+      errorMessage = topLevelMessage;
     }
 
-    return errorMessage;
+    if (Array.isArray(topLevelMessage)) {
+      errorMessage = topLevelMessage.join(", ");
+    }
+
+    if (Array.isArray(nestedMessage) && nestedMessage.length > 0) {
+      errorMessage = nestedMessage.join(", ");
+    }
+
+    if (typeof nestedMessage === "string") {
+      errorMessage = nestedMessage;
+    }
   }
+
+  return errorMessage;
+};
+
+export const parseGraphQLApiError = (error: unknown): string => {
+  let errorMessage = "An unexpected error occurred";
 
   // Handle Apollo GraphQL ServerError
   if (

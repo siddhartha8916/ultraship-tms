@@ -24,7 +24,12 @@ export type UserState = z.infer<typeof UserStateSchema>;
 
 export const AppSurveyErrorSchema = z.object({
   message: z.string(),
-  code: z.string().optional(),
+  code: z.string(),
+  data: z.object({
+    message: z.array(z.string()),
+    $errorId: z.string()
+  }),
+  stacktrace: z.string()
 });
 
 export type AppSurveyError = z.infer<typeof AppSurveyErrorSchema>;

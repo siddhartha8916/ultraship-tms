@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export default function useLoginForm() {
-  const { mutateAsync: loginUser, isPaused: isLoginUserLoading } =
+  const { mutateAsync: loginUser, isPending: isLoginUserLoading } =
     useLoginUser();
   const { updateCurrentUser } = useUserStore();
   const navigate = useNavigate();

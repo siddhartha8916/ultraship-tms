@@ -10,7 +10,8 @@ import type { z } from "zod";
 type RegisterFormData = z.infer<typeof Schema>;
 
 export default function useRegisterForm() {
-  const { mutateAsync: registerUser, isPaused: isRegisterUserLoading } = useRegisterUser();
+  const { mutateAsync: registerUser, isPending: isRegisterUserLoading } =
+    useRegisterUser();
   const navigate = useNavigate();
 
   const {
@@ -26,12 +27,11 @@ export default function useRegisterForm() {
     try {
       const result = await registerUser({ body: formData });
       RegisterResponseSchema.parse(result);
-      toast.success("Registration successful!");
+      toast.success("Registration successful!, Login with your credentials");
       reset();
       navigate("/auth/login");
     } catch (error) {
       console.error("Registration failed:", error);
-      toast.error("Registration failed. Please try again.");
     }
   });
 

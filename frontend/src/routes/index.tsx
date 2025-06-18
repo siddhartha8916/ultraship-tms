@@ -1,4 +1,5 @@
 import EmployeesPage from "@/pages/app/employees";
+import UsersPage from "@/pages/app/users";
 import LoginPage from "@/pages/auth/login";
 import RegisterPage from "@/pages/auth/register";
 import AuthLayout from "@/shared/components/layout/auth-layout";
@@ -21,8 +22,9 @@ const router = createBrowserRouter(
       {/* ====================== Application Routes ====================== */}
 
       <Route path="/" element={<DashboardLayout />}>
-        <Route index element={<>?Home Page</>} />
-        <Route path="employees" element={<EmployeesPage />} />
+        <Route index element={<>Home Page</>} />
+        <Route path="/employees" element={<EmployeesPage />} />
+        <Route path="/users" element={<UsersPage />} />
       </Route>
 
       {/* If no matching route is found, redirect to the dashboard */}

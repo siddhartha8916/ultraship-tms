@@ -12,7 +12,7 @@ createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReactQueryProvider>
       <HeroUIProvider>
-        <Toaster position="top-center" visibleToasts={1} richColors />
+        <Toaster position="bottom-left" visibleToasts={1} richColors />
         <ApolloClientProvider>
           <RouterProvider router={router} />
         </ApolloClientProvider>
